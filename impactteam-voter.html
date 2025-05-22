@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote the Real Artist</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <style>
+        .art-image {
+            max-width: 300px;
+            height: auto;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .art-image:hover {
+            border-color: #007bff;
+        }
+
+        .vote-option h3 {
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <div class="container py-5">
+        <h1 class="text-center mb-3">Vote the Real Artist</h1>
+        <p class="text-center mb-5">Can you identify all 5 correctly to unlock the code?</p>
+
+        <!-- Artist Sections -->
+
+        <!-- Claude Monet -->
+        <div class="text-center mb-5">
+            <p>Which one is the real Claude Monet?</p>
+            <div class="d-flex justify-content-center">
+                <div class="vote-option mx-3">
+                    <h3>Option A</h3>
+                    <img src="images/Monet1.jpg" class="art-image rounded border border-3 border-secondary" alt="Option A" onclick="guess(true, 'Claude Monet')">
+                </div>
+                <div class="vote-option mx-3">
+                    <h3>Option B</h3>
+                    <img src="images/monet-ai.png" class="art-image rounded border border-3 border-secondary" alt="Option B" onclick="guess(false, 'Claude Monet')">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mondriaan -->
+        <div class="text-center mb-5">
+            <p>Which one is the real Mondriaan?</p>
+            <div class="d-flex justify-content-center">
+                <div class="vote-option mx-3">
+                    <h3>Option A</h3>
+                    <img src="images/mondriaanreal.webp" class="art-image rounded border border-3 border-secondary" alt="Option A" onclick="guess(true, 'Mondriaan')">
+                </div>
+                <div class="vote-option mx-3">
+                    <h3>Option B</h3>
+                    <img src="images/mondriaanai.jpeg" class="art-image rounded border border-3 border-secondary" alt="Option B" onclick="guess(false, 'Mondriaan')">
+                </div>
+            </div>
+        </div>
+
+        <!-- Van Gogh -->
+        <div class="text-center mb-5">
+            <p>Which one is the real Vincent van Gogh?</p>
+            <div class="d-flex justify-content-center">
+                <div class="vote-option mx-3">
+                    <h3>Option A</h3>
+                    <img src="images/goghai.jpeg" class="art-image rounded border border-3 border-secondary" alt="Option A" onclick="guess(false, 'Van Gogh')">
+                </div>
+                <div class="vote-option mx-3">
+                    <h3>Option B</h3>
+                    <img src="images/goghreal.jpeg" class="art-image rounded border border-3 border-secondary" alt="Option B" onclick="guess(true, 'Van Gogh')">
+                </div>
+            </div>
+        </div>
+
+        <!-- Rembrandt -->
+        <div class="text-center mb-5">
+            <p>Which one is the real Rembrandt?</p>
+            <div class="d-flex justify-content-center">
+                <div class="vote-option mx-3">
+                    <h3>Option A</h3>
+                    <img src="images/rembrandtai.png" class="art-image rounded border border-3 border-secondary" alt="Option A" onclick="guess(false, 'Rembrandt')">
+                </div>
+                <div class="vote-option mx-3">
+                    <h3>Option B</h3>
+                    <img src="images/rembrandt.jpeg" class="art-image rounded border border-3 border-secondary" alt="Option B" onclick="guess(true, 'Rembrandt')">
+                </div>
+            </div>
+        </div>
+
+        <!-- Picasso -->
+        <div class="text-center mb-5">
+            <p>Which one is the real Picasso?</p>
+            <div class="d-flex justify-content-center">
+                <div class="vote-option mx-3">
+                    <h3>Option A</h3>
+                    <img src="images/picassoai.png" class="art-image rounded border border-3 border-secondary" alt="Option A" onclick="guess(false, 'Picasso')">
+                </div>
+                <div class="vote-option mx-3">
+                    <h3>Option B</h3>
+                    <img src="images/picasso.p.png" class="art-image rounded border border-3 border-secondary" alt="Option B" onclick="guess(true, 'Picasso')">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let score = 0;
+        let votedCount = 0;
+        const totalVotesRequired = 5;
+        const correctAnswers = {
+            "Claude Monet": true,
+            "Mondriaan": true,
+            "Van Gogh": true,
+            "Rembrandt": true,
+            "Picasso": true
+        };
+
+        function guess(isHuman, artist) {
+            if (correctAnswers[artist] === isHuman) {
+                alert(`✅ Correct! That’s a real piece by ${artist}.`);
+                score += 1;
+            } else {
+                alert(`❌ Nope! That was AI mimicking ${artist}.`);
+            }
+
+            votedCount += 1;
+
+            if (votedCount === totalVotesRequired) {
+                if (score === totalVotesRequired) {
+                    showCode();
+                } else {
+                    alert("Not all answers were correct. Try again!");
+                    setTimeout(() => location.reload(), 1000);
+                }
+            }
+        }
+
+        function showCode() {
+            document.body.innerHTML = `
+                <div class="container text-center py-5">
+                    <div class="p-5 bg-success text-white rounded shadow-sm">
+                        <h2 class="mb-3">✅ Code Unlocked!</h2>
+                        <p class="lead">The number for the code is: <strong>8</strong></p>
+                        <button class="btn btn-light mt-3" onclick="location.reload()">Start Over</button>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
